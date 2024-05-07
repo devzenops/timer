@@ -5,8 +5,8 @@ import re
 import argparse
 
 
-from timer import Timer 
-from console_logic import Console
+from .timer import Timer
+from .console_logic import Console
 
 
 console = Console()
@@ -37,7 +37,7 @@ def wait_valid_data():
     return answer
 
 
-def main():
+def start_menu():
     """describes the menu interaction logic"""
     parser = argparse.ArgumentParser(description="Pomodoro Timer")
 
@@ -148,6 +148,3 @@ def main():
                 new_timer.stats.get_stats_activity(data), concat_date
             )
 
-
-if __name__ == "__main__":
-    main()

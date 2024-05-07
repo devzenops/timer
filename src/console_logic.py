@@ -1,19 +1,19 @@
+"""module respnsible for CLI interaction"""
+
 import sys
 import time
-
-from db_logic import DBHandler
-from stats import Stats
 
 
 class Console:
 
-    def move_cursor(self, vertical: int, horizontal: int):
+    def _move_cursor(self, vertical: int, horizontal: int):
         sys.stdout.write(f"\033[{vertical}A")
 
         for _ in range(horizontal):
-            sys.stdout.write(f"\033[1000D")
+            sys.stdout.write("\033[1000D")
 
     def dynamic_output(self, periods):
+        """this method creates dynamic time bar and time countdown in console"""
         flag_float_minute = False
         length = 100
         final = ""
@@ -37,7 +37,7 @@ class Console:
                     for i in range(period.time - 1, -1, -1):
                         for string in period.minute_count(i):
                             print(final, reset, "\n", string, reset, end="")
-                            self.move_cursor(1, 1)
+                            self._move_cursor(1, 1)
                             time.sleep(1)
                         final += " " * proportion
                     final += "\x1b[0m|"
@@ -46,7 +46,7 @@ class Console:
                     for i in range(period.time - 1, -1, -1):
                         for string in period.minute_count(i):
                             print(final, reset, "\n", string, reset, end="")
-                            self.move_cursor(1, 1)
+                            self._move_cursor(1, 1)
                             time.sleep(1)
                         final += " " * proportion
                     final += "\x1b[0m|"
@@ -60,7 +60,7 @@ class Console:
                         counter += 1
                         for string in period.minute_count(i):
                             print(final, reset, "\n", string, reset, end="")
-                            self.move_cursor(1, 1)
+                            self._move_cursor(1, 1)
                             time.sleep(1)
                         if counter == per_dig:
                             final += " "
@@ -72,7 +72,7 @@ class Console:
                         counter += 1
                         for string in period.minute_count(i):
                             print(final, reset, "\n", string, reset, end="")
-                            self.move_cursor(1, 1)
+                            self._move_cursor(1, 1)
                             time.sleep(1)
                         if counter == per_dig:
                             final += " "
@@ -80,6 +80,7 @@ class Console:
                     final += reset + "|"
 
     def visualize_stats_activity(self, activity_list: list, period: str):
+        """outputs activity based statistics to the console"""
         print(f"Your activity stats during {period} period")
         for (
             key,
@@ -90,6 +91,7 @@ class Console:
     def visualize_stats_per_days(
         self, activity_dict: dict, period: str, detailed: bool
     ):
+        """outputs data based statistics to the console"""
 
         print(activity_dict)
         if detailed:
@@ -103,17 +105,3 @@ class Console:
             print(f"Here's your  stats during {period} period")
             for key, value in activity_dict.items():
                 print("\t", key, ":\t", f"{value} minutes")
-
-
-if __name__ == "__main__":
-
-    test = Console()
-    stats = Stats()
-    db = DBHandler()
-    test.visualize_stats_per_days(
-        stats.get_stats_per_day(
-            db.get_specific_period("2024-04-21", "2024-04-30"), detailed=True
-        ),
-        "lol",
-        detailed=True,
-    )

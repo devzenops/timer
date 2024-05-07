@@ -2,18 +2,19 @@
 
 import time
 
-from db_logic import DBHandler
-from console_logic import Console
-from stats import Stats
+from .db_logic import DBHandler
+from .console_logic import Console
+from .stats import Stats
 
 
 class Time:
     """Class, representing time period - basic"""
 
-    def __init__(self, time: int):
-        self.time = time
+    def __init__(self, user_time: int):
+        self.time = user_time
 
     def minute_count(self, minute):
+        """generator, returning formatted strings with 1 minute countdown"""
         string = ""
         for seconds in range(59, 0, -1):
             zero = ""
