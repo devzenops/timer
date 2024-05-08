@@ -1,1 +1,5 @@
+.DS_store
+venv
+.env
+test.py
 __pycache__
