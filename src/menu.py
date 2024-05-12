@@ -1,7 +1,7 @@
 """Module providing user interaction"""
 
 import re
-
+import sys
 import argparse
 
 
@@ -65,7 +65,7 @@ def start_menu():
     )
 
     args = parser.parse_args()
-
+    args = parser.parse_args(args=None if sys.argv[1:] else ['--help'])
     if args.run:
         success = False
         try:
